@@ -47,12 +47,10 @@ class Admin extends User{
         return newPenghuni;
     }
 
-    // Metode baru untuk Admin menindaklanjuti pengaduan
     public void tindakLanjutiPengaduan(RiwayatPengaduan riwayat, int index) {
         riwayat.tindakLanjutiPengaduan(index);
     }
 
-    // Metode baru untuk Admin menyelesaikan pengaduan
     public void selesaikanPengaduan(RiwayatPengaduan riwayat, int index) {
         riwayat.selesaikanPengaduan(index);
     }
@@ -103,6 +101,8 @@ class Penjaga extends User{
         System.out.println("[Penjaga] Username: " + username);
     }
 
+    public String getNama(){ return nama;}
+
     public Galeri uploadGallery(String nama, String deskripsi){
         Galeri g = new Galeri(nama, deskripsi);
         g.tampilkan();
@@ -144,7 +144,6 @@ class Log{
     }
 
     public void tampilkan() {
-        // Format waktu agar lebih mudah dibaca
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formattedWaktu = waktu.format(formatter);
         System.out.println(namaPenghuni + " " + status + " pada " + formattedWaktu);
@@ -261,9 +260,25 @@ class InventarisAsrama {
 
 class MiniMap {
     public void tampilkanPeta() {
-        System.out.println("\nMenampilkan MiniMap");
-        System.out.println("--------");
-    }
+        System.out.println("  +---------+    +---------+                    +---------+    +---------+");
+        System.out.println("  | KAMAR 1 |    | KAMAR11 |                    | KAMAR12 |    | KAMAR22 |");
+        System.out.println("  +---------+    +---------+    +-----------+   +---------+    +---------+");
+        System.out.println("  +---------+    +---------+    |           |   +---------+    +---------+");
+        System.out.println("  | KAMAR 2 |    | KAMAR10 |    |           |   | KAMAR13 |    | KAMAR21 |");
+        System.out.println("  +---------+    +---------+    |           |   +---------+    +---------+");
+        System.out.println("  +---------+                   |           |                  +---------+");
+        System.out.println("  | KAMAR 3 |                   |           |                  | KAMAR20 |");
+        System.out.println("  +---------+                   |   LOBI    |                  +---------+");
+        System.out.println("  +---------+    +---------+    |           |   +---------+    +---------+");
+        System.out.println("  | KAMAR 4 |    | KAMAR 9 |    |           |   | KAMAR14 |    | KAMAR19 |");
+        System.out.println("  +---------+    +---------+    |           |   +---------+    +---------+");
+        System.out.println("  +---------+    +---------+    |           |   +---------+    +---------+");
+        System.out.println("  | KAMAR 5 |    | KAMAR 8 |    |           |   | KAMAR15 |    | KAMAR18 |");
+        System.out.println("  +---------+    +---------+    +-----------+   +---------+    +---------+");
+        System.out.println("  +---------+    +---------+                    +---------+    +---------+");
+        System.out.println("  | KAMAR 6 |    | KAMAR 7 |                    | KAMAR16 |    | KAMAR17 |");
+        System.out.println("  +---------+    +---------+                    +---------+    +---------+ ");
+        }
 }
 
 public class AsramaApp{
@@ -292,11 +307,11 @@ public class AsramaApp{
         else if (loggedInUser instanceof Penghuni){
             System.out.println("7. Buat Pengaduan");
             System.out.println("8. Lihat Pengaduan");
-            System.out.println("9. Upload Gallery");
+            System.out.println("9. Upload Galeri");
         }
         else if (loggedInUser instanceof Penjaga){
             System.out.println("7. Lihat Pengaduan");
-            System.out.println("8. Upload gallery");
+            System.out.println("8. Upload Galeri");
         }
         System.out.println("0. LogOut");
     }
@@ -338,7 +353,7 @@ public class AsramaApp{
     }
 
     private static void tampilkanSemuaGaleri(ArrayList<Galeri> galeri){
-         System.out.println("\n--- Gallery ---");
+         System.out.println("\n--- Galeri ---");
         for (Galeri g : galeri) {
             g.tampilkan();
         }
@@ -394,6 +409,7 @@ public class AsramaApp{
         boolean isRunning = false;
 
         while(loggedInUser == null) {
+            System.out.println("----- Halaman Login -----");
             System.out.print("Username: ");
             String username = input.nextLine();
             System.out.print("Password: ");
@@ -404,7 +420,15 @@ public class AsramaApp{
                 if (potentialUser.login(username, password)) {
                     loggedInUser = potentialUser;
                     isRunning = true;
-                    System.out.println("Login berhasil sebagai " + loggedInUser.getClass().getSimpleName() + "!");
+                    if (potentialUser instanceof Admin){
+                        System.out.println("\nLogin berhasil sebagai " + loggedInUser.getClass().getSimpleName() + "!");
+                    }
+                    else if (potentialUser instanceof Penghuni) {
+                        System.out.println("\nHalo " + ((Penghuni) potentialUser).getDataPenghuni().getNama() + ", Kamu telah berhasil login sebagai penghuni");
+                    }
+                    else if (potentialUser instanceof Penjaga){
+                        System.out.println("\nHalo " + ((Penjaga) potentialUser).getNama() + ", Kamu telah berhasil login sebagai penjaga");
+                    }
                     break;
                 }
             }
@@ -533,7 +557,7 @@ public class AsramaApp{
                             break;
 
                             case 9 :
-                                System.out.println("Upload gallery");
+                                System.out.println("Upload Galeri");
                                 System.out.print("Masukkan nama File : ");
                                 String namaFile = input.nextLine();
                                 System.out.print("Masukkan Deskripsi : ");
@@ -541,7 +565,7 @@ public class AsramaApp{
 
                                 Galeri addedGaleri = currentPenghuni.uploadGallery(namaFile, deskripsi);
                                 daftarGaleri.add(addedGaleri);
-                                System.out.println("Berhasil memperbaru Galeri");
+                                System.out.println("Berhasil memperbarui Galeri");
                             break;
                         }
                         
@@ -554,7 +578,7 @@ public class AsramaApp{
                             break;
 
                             case 8 :
-                                System.out.println("Upload gallery");
+                                System.out.println("Upload Galeri");
                                 System.out.print("Masukkan nama File : ");
                                 String namaFile = input.nextLine();
                                 System.out.print("Masukkan Deskripsi : ");
@@ -562,7 +586,7 @@ public class AsramaApp{
 
                                 Galeri addedGaleri = currentPenjaga.uploadGallery(namaFile, deskripsi);
                                 daftarGaleri.add(addedGaleri);
-                                System.out.println("Berhasil memperbaru Galeri");
+                                System.out.println("Berhasil memperbarui Galeri");
                             break;
                         }
                     }
