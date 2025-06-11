@@ -33,7 +33,7 @@ class Admin extends User{
 
      @Override
     public void viewProfile() {
-        System.out.println("[Admin] Username: " + username);
+        System.out.println("\n[Admin] Username: " + username);
     }
 
     public void resetPassword(User user, String newPassword) {
@@ -66,7 +66,7 @@ class Penghuni extends User{
 
      @Override
     public void viewProfile() {
-        System.out.println("[Penghuni] Username: " + username);
+        System.out.println("\n[Penghuni] Username: " + username);
     }
 
     public DataPenghuni getDataPenghuni() {
@@ -98,7 +98,7 @@ class Penjaga extends User{
 
     @Override
      public void viewProfile() {
-        System.out.println("[Penjaga] Username: " + username);
+        System.out.println("\n[Penjaga] Username: " + username);
     }
 
     public String getNama(){ return nama;}
