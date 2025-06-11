@@ -566,6 +566,9 @@ public class AsramaApp{
                                     break;
                                 }
                             break;
+
+                            default: 
+                            System.out.println("Inputan menu tidak valid");
                         }
                     }
                     else if (loggedInUser instanceof Penghuni) {
@@ -591,6 +594,9 @@ public class AsramaApp{
                                 daftarGaleri.add(addedGaleri);
                                 System.out.println("Berhasil memperbarui Galeri");
                             break;
+                            
+                            default: 
+                            System.out.println("Inputan menu tidak valid");
                         }
                         
                     }
@@ -612,6 +618,9 @@ public class AsramaApp{
                                 daftarGaleri.add(addedGaleri);
                                 System.out.println("Berhasil memperbarui Galeri");
                             break;
+                            
+                            default: 
+                            System.out.println("Inputan menu tidak valid");
                         }
                     }
             }
