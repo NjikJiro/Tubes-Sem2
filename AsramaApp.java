@@ -38,7 +38,7 @@ class Admin extends User{
 
     public void resetPassword(User user, String newPassword) {
         user.password = newPassword;
-        System.out.println("Password berhasil direset untuk user: " + user.username);
+        System.out.println("Password berhasil diubah untuk user: " + user.username);
     }
 
     public Penghuni tambahPenghuni(String username, String password, String nama, String kamar, String jurusan, String asal, String noTelepon) {
@@ -303,6 +303,7 @@ public class AsramaApp{
             System.out.println("8. Lihat Pengaduan");
             System.out.println("9. Kelola Pengaduan");
             System.out.println("10. Tampilkan Inventaris");
+            System.out.println("11. Ubah Password untuk Penghuni");
         }
         else if (loggedInUser instanceof Penghuni){
             System.out.println("7. Buat Pengaduan");
@@ -541,6 +542,29 @@ public class AsramaApp{
                             
                             case  10:
                                 tampilkanInventaris(daftarInventaris);
+                            break;
+
+                            case 11:
+                                System.out.println("\nTampilkan seluruh penghuni");
+                                int i = 0;
+                                for (User user : users.values()) {
+                                    if (user instanceof Penghuni) {
+                                        i++;
+                                        Penghuni penghuni = (Penghuni) user;
+                                        System.out.println((i)+ "  " + penghuni.getUsername());
+                                    }
+                                }
+                                System.out.print("Ketik username yang ingin ubah password : ");
+                                String resetUname = input.nextLine();
+                                if (users.containsKey(resetUname)){
+                                    System.out.print("Ketik password baru : ");
+                                    String resetPass = input.nextLine();
+
+                                    currentAdmin.resetPassword(users.get(resetUname), resetPass);
+                                } else{
+                                    System.out.println("Usernmae salah");
+                                    break;
+                                }
                             break;
                         }
                     }
